@@ -1,0 +1,7 @@
+README.md
+LICENSE
+.github/**
+.gitignore
+pyproject.toml
+setup.py
+setup.cfg

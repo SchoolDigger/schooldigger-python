@@ -1,0 +1,69 @@
+name: Regenerate SDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (e.g., 1.1.0)'
+        required: true
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java (required by openapi-generator)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install tools
+        run: |
+          npm install -g @openapitools/openapi-generator-cli swagger2openapi
+          pip install build twine
+
+      - name: Download latest spec
+        run: curl -o swagger.json https://api.schooldigger.com/swagger/docs/v2.3
+
+      - name: Convert to OpenAPI 3.0
+        run: npx swagger2openapi swagger.json -o openapi-latest.json
+
+      - name: Apply patches
+        run: node patch-spec.js openapi-latest.json openapi-patched.json
+
+      - name: Generate SDK
+        run: |
+          openapi-generator-cli generate \
+            -i openapi-patched.json \
+            -g python \
+            -o . \
+            --package-name schooldigger \
+            --additional-properties=packageVersion=${{ github.event.inputs.version }},projectName=schooldigger
+
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m build
+          twine upload dist/*
+
+      - name: Commit updated spec and generated code
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add openapi-patched.json schooldigger/
+          git commit -m "Regenerate SDK v${{ github.event.inputs.version }}" || echo "No changes to commit"
+          git push
