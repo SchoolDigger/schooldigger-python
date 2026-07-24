@@ -4,8 +4,8 @@ All URIs are relative to *https://api.schooldigger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_district**](DistrictsApi.md#get_district) | **GET** /v2.3/districts/{id} | Returns a detailed record for one district
-[**search_districts**](DistrictsApi.md#search_districts) | **GET** /v2.3/districts | Returns a list of districts
+[**get_district**](DistrictsApi.md#get_district) | **GET** /v2.4/districts/{id} | Returns a detailed record for one district
+[**search_districts**](DistrictsApi.md#search_districts) | **GET** /v2.4/districts | Returns a list of districts
 
 
 # **get_district**
@@ -95,11 +95,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **search_districts**
-> APIDistrictList21 search_districts(st, q=q, city=city, zip=zip, near_latitude=near_latitude, near_longitude=near_longitude, boundary_address=boundary_address, distance_miles=distance_miles, is_in_boundary_only=is_in_boundary_only, box_latitude_nw=box_latitude_nw, box_longitude_nw=box_longitude_nw, box_latitude_se=box_latitude_se, box_longitude_se=box_longitude_se, page=page, per_page=per_page, sort_by=sort_by, include_unranked_districts_in_rank_sort=include_unranked_districts_in_rank_sort)
+> APIDistrictList21 search_districts(st=st, q=q, city=city, zip=zip, near_latitude=near_latitude, near_longitude=near_longitude, boundary_address=boundary_address, distance_miles=distance_miles, is_in_boundary_only=is_in_boundary_only, box_latitude_nw=box_latitude_nw, box_longitude_nw=box_longitude_nw, box_latitude_se=box_latitude_se, box_longitude_se=box_longitude_se, page=page, per_page=per_page, sort_by=sort_by, include_unranked_districts_in_rank_sort=include_unranked_districts_in_rank_sort)
 
 Returns a list of districts
 
-Search the SchoolDigger database for districts. You may use any combination of criteria as query parameters.
+Search the SchoolDigger database for districts. You may use any combination of criteria as query parameters. New in v2.4: location searches (nearLatitude/nearLongitude, boundaryAddress, or box coordinates) no longer require 'st' and may return districts from more than one state.
 
 ### Example
 
@@ -139,7 +139,7 @@ configuration.api_key['appKey'] = os.environ["API_KEY"]
 with schooldigger.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = schooldigger.DistrictsApi(api_client)
-    st = 'st_example' # str | Two character state (e.g. 'CA') - required
+    st = 'st_example' # str | Two character state (e.g. 'CA') - optional if you supply a location search (nearLatitude/nearLongitude, boundaryAddress, or box coordinates); required otherwise. Location searches without 'st' may return districts from multiple states. (optional)
     q = 'q_example' # str | Search term - note: will match district name or city (optional) (optional)
     city = 'city_example' # str | Search for districts in this city (optional) (optional)
     zip = 'zip_example' # str | Search for districts in this 5-digit zip code (optional) (optional)
@@ -159,7 +159,7 @@ with schooldigger.ApiClient(configuration) as api_client:
 
     try:
         # Returns a list of districts
-        api_response = api_instance.search_districts(st, q=q, city=city, zip=zip, near_latitude=near_latitude, near_longitude=near_longitude, boundary_address=boundary_address, distance_miles=distance_miles, is_in_boundary_only=is_in_boundary_only, box_latitude_nw=box_latitude_nw, box_longitude_nw=box_longitude_nw, box_latitude_se=box_latitude_se, box_longitude_se=box_longitude_se, page=page, per_page=per_page, sort_by=sort_by, include_unranked_districts_in_rank_sort=include_unranked_districts_in_rank_sort)
+        api_response = api_instance.search_districts(st=st, q=q, city=city, zip=zip, near_latitude=near_latitude, near_longitude=near_longitude, boundary_address=boundary_address, distance_miles=distance_miles, is_in_boundary_only=is_in_boundary_only, box_latitude_nw=box_latitude_nw, box_longitude_nw=box_longitude_nw, box_latitude_se=box_latitude_se, box_longitude_se=box_longitude_se, page=page, per_page=per_page, sort_by=sort_by, include_unranked_districts_in_rank_sort=include_unranked_districts_in_rank_sort)
         print("The response of DistrictsApi->search_districts:\n")
         pprint(api_response)
     except Exception as e:
@@ -173,7 +173,7 @@ with schooldigger.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **st** | **str**| Two character state (e.g. &#39;CA&#39;) - required | 
+ **st** | **str**| Two character state (e.g. &#39;CA&#39;) - optional if you supply a location search (nearLatitude/nearLongitude, boundaryAddress, or box coordinates); required otherwise. Location searches without &#39;st&#39; may return districts from multiple states. | [optional] 
  **q** | **str**| Search term - note: will match district name or city (optional) | [optional] 
  **city** | **str**| Search for districts in this city (optional) | [optional] 
  **zip** | **str**| Search for districts in this 5-digit zip code (optional) | [optional] 
