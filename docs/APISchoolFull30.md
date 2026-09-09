@@ -1,10 +1,12 @@
-# APISchoolFull22
+# APISchoolFull30
 
+School detail record for API 3.0. Identical to 2.4 (APISchoolFull22) except testScores, whose percent metrics are  a number or an APIReportedPercent object and whose rows are no longer limited to what the pre-2026 importers  produced (docs/suppressed-test-values-spec.md R6).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**test_scores** | [**List[APITestScoreWrapper30]**](APITestScoreWrapper30.md) | Standardized test score results with school, district, and state comparisons. Each entry represents one test/subject/grade/year combination. Percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent). Includes optional tier breakdowns (Enterprise level). Tests are state-specific (e.g. SBA, WCAS in WA; CAASPP in CA). Requires Pro or Enterprise API subscription. | [optional] 
 **schoolid** | **str** | SchoolDigger School ID Number (12 digits) | [optional] 
 **school_name** | **str** | School name | [optional] 
 **phone** | **str** | School phone number | [optional] 
@@ -37,25 +39,24 @@ Name | Type | Description | Notes
 **chronic_absenteeism_rates** | [**List[APIChronicAbsenteeismRate]**](APIChronicAbsenteeismRate.md) | Chronic absenteeism rates (students missing 15+ days) at school, district, and state levels (Pro and Enterprise API level only). Array is sorted most recent year first. Data availability varies by state. | [optional] 
 **rank_history** | [**List[APIRankHistory]**](APIRankHistory.md) | SchoolDigger yearly rank history for this school, sorted most recent year first. Schools are ranked within their state and level (Elementary, Middle, or High). Includes all available years — the full record returns more years than the summary in search results. | [optional] 
 **rank_movement** | **int** | Returns the movement of rank for this school between current and previous year | [optional] 
-**test_scores** | [**List[APITestScoreWrapper]**](APITestScoreWrapper.md) | Standardized test score results with school, district, and state comparisons. Each entry represents one test/subject/grade/year combination. Includes percent meeting standard and optional tier breakdowns (Enterprise level). Tests are state-specific (e.g. SBA, WCAS in WA; CAASPP in CA). Requires Pro or Enterprise API subscription. | [optional] 
 **school_yearly_details** | [**List[APIYearlyDemographics]**](APIYearlyDemographics.md) | Yearly enrollment, demographics, and staffing for this school. Array is sorted most recent year first and includes all available years (back to 1988 for some schools). The full record returns more years than the summary in search results. | [optional] 
 
 ## Example
 
 ```python
-from schooldigger.models.api_school_full22 import APISchoolFull22
+from schooldigger.models.api_school_full30 import APISchoolFull30
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of APISchoolFull22 from a JSON string
-api_school_full22_instance = APISchoolFull22.from_json(json)
+# create an instance of APISchoolFull30 from a JSON string
+api_school_full30_instance = APISchoolFull30.from_json(json)
 # print the JSON string representation of the object
-print(APISchoolFull22.to_json())
+print(APISchoolFull30.to_json())
 
 # convert the object into a dict
-api_school_full22_dict = api_school_full22_instance.to_dict()
-# create an instance of APISchoolFull22 from a dict
-api_school_full22_from_dict = APISchoolFull22.from_dict(api_school_full22_dict)
+api_school_full30_dict = api_school_full30_instance.to_dict()
+# create an instance of APISchoolFull30 from a dict
+api_school_full30_from_dict = APISchoolFull30.from_dict(api_school_full30_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

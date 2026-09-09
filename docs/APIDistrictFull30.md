@@ -1,10 +1,12 @@
-# APIDistrictFull21
+# APIDistrictFull30
 
+District detail record for API 3.0. Identical to 2.4 (APIDistrictFull21) except testScores, whose percent metrics  are a number or an APIReportedPercent object and whose rows are no longer limited to what the pre-2026 importers  produced (docs/suppressed-test-values-spec.md R6).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**test_scores** | [**List[APITestScoreWrapper30]**](APITestScoreWrapper30.md) | Standardized test score results with district and state comparisons. Each entry represents one test/subject/grade/year combination. District-level records do not include schoolTestScore. Percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent). Requires Pro or Enterprise API subscription. | [optional] 
 **district_id** | **str** | SchoolDigger District ID Number (7 digits) | [optional] 
 **district_name** | **str** | District name | [optional] 
 **phone** | **str** | District phone number | [optional] 
@@ -26,24 +28,23 @@ Name | Type | Description | Notes
 **county** | [**APICounty**](APICounty.md) |  | [optional] 
 **rank_history** | [**List[APILEARankHistory]**](APILEARankHistory.md) | SchoolDigger yearly rank history for this district, sorted most recent year first. Districts are ranked statewide regardless of level. | [optional] 
 **district_yearly_details** | [**List[APILEAYearlyDetail]**](APILEAYearlyDetail.md) | Yearly enrollment and staffing details for this district. Array is sorted most recent year first. Includes detailed FTE staffing breakdowns by role (teachers by level, administrators, counselors, librarians, support staff). | [optional] 
-**test_scores** | [**List[APITestScoreWrapper]**](APITestScoreWrapper.md) | Standardized test score results with district and state comparisons. Each entry represents one test/subject/grade/year combination. District-level records do not include schoolTestScore. Requires Pro or Enterprise API subscription. | [optional] 
 
 ## Example
 
 ```python
-from schooldigger.models.api_district_full21 import APIDistrictFull21
+from schooldigger.models.api_district_full30 import APIDistrictFull30
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of APIDistrictFull21 from a JSON string
-api_district_full21_instance = APIDistrictFull21.from_json(json)
+# create an instance of APIDistrictFull30 from a JSON string
+api_district_full30_instance = APIDistrictFull30.from_json(json)
 # print the JSON string representation of the object
-print(APIDistrictFull21.to_json())
+print(APIDistrictFull30.to_json())
 
 # convert the object into a dict
-api_district_full21_dict = api_district_full21_instance.to_dict()
-# create an instance of APIDistrictFull21 from a dict
-api_district_full21_from_dict = APIDistrictFull21.from_dict(api_district_full21_dict)
+api_district_full30_dict = api_district_full30_instance.to_dict()
+# create an instance of APIDistrictFull30 from a dict
+api_district_full30_from_dict = APIDistrictFull30.from_dict(api_district_full30_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

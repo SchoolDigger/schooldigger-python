@@ -4,16 +4,16 @@ All URIs are relative to *https://api.schooldigger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_district**](DistrictsApi.md#get_district) | **GET** /v2.4/districts/{id} | Returns a detailed record for one district
-[**search_districts**](DistrictsApi.md#search_districts) | **GET** /v2.4/districts | Returns a list of districts
+[**get_district**](DistrictsApi.md#get_district) | **GET** /v3.0/districts/{id} | Returns a detailed record for one district
+[**search_districts**](DistrictsApi.md#search_districts) | **GET** /v3.0/districts | Returns a list of districts
 
 
 # **get_district**
-> APIDistrictFull21 get_district(id)
+> APIDistrictFull30 get_district(id, include_ranges=include_ranges)
 
 Returns a detailed record for one district
 
-Retrieve a single district record from the SchoolDigger database
+Retrieve a single district record from the SchoolDigger database. Version 3.0 adds includeRanges: with it, test-score percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent); without it the record is identical to v2.4.
 
 ### Example
 
@@ -22,7 +22,7 @@ Retrieve a single district record from the SchoolDigger database
 
 ```python
 import schooldigger
-from schooldigger.models.api_district_full21 import APIDistrictFull21
+from schooldigger.models.api_district_full30 import APIDistrictFull30
 from schooldigger.rest import ApiException
 from pprint import pprint
 
@@ -54,10 +54,11 @@ with schooldigger.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = schooldigger.DistrictsApi(api_client)
     id = 'id_example' # str | The 7 digit District ID (e.g. 0642150)
+    include_ranges = True # bool | true = return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status ('range', 'suppressed', 'legacyImputed' or 'derived') and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) = the record is identical to v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) (optional)
 
     try:
         # Returns a detailed record for one district
-        api_response = api_instance.get_district(id)
+        api_response = api_instance.get_district(id, include_ranges=include_ranges)
         print("The response of DistrictsApi->get_district:\n")
         pprint(api_response)
     except Exception as e:
@@ -72,10 +73,11 @@ with schooldigger.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| The 7 digit District ID (e.g. 0642150) | 
+ **include_ranges** | **bool**| true &#x3D; return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status (&#39;range&#39;, &#39;suppressed&#39;, &#39;legacyImputed&#39; or &#39;derived&#39;) and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) &#x3D; the record is identical to v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) | [optional] 
 
 ### Return type
 
-[**APIDistrictFull21**](APIDistrictFull21.md)
+[**APIDistrictFull30**](APIDistrictFull30.md)
 
 ### Authorization
 

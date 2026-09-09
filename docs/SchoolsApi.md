@@ -4,16 +4,16 @@ All URIs are relative to *https://api.schooldigger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_school**](SchoolsApi.md#get_school) | **GET** /v2.4/schools/{id} | Returns a detailed record for one school
-[**search_schools**](SchoolsApi.md#search_schools) | **GET** /v2.4/schools | Returns a list of schools
+[**get_school**](SchoolsApi.md#get_school) | **GET** /v3.0/schools/{id} | Returns a detailed record for one school
+[**search_schools**](SchoolsApi.md#search_schools) | **GET** /v3.0/schools | Returns a list of schools
 
 
 # **get_school**
-> APISchoolFull22 get_school(id)
+> APISchoolFull30 get_school(id, include_ranges=include_ranges)
 
 Returns a detailed record for one school
 
-Retrieve a school record from the SchoolDigger database
+Retrieve a school record from the SchoolDigger database. Version 3.0 adds includeRanges: with it, test-score percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent); without it the record is identical to v2.4.
 
 ### Example
 
@@ -22,7 +22,7 @@ Retrieve a school record from the SchoolDigger database
 
 ```python
 import schooldigger
-from schooldigger.models.api_school_full22 import APISchoolFull22
+from schooldigger.models.api_school_full30 import APISchoolFull30
 from schooldigger.rest import ApiException
 from pprint import pprint
 
@@ -54,10 +54,11 @@ with schooldigger.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = schooldigger.SchoolsApi(api_client)
     id = 'id_example' # str | The 12 digit School ID (e.g. 064215006903)
+    include_ranges = True # bool | true = return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status ('range', 'suppressed', 'legacyImputed' or 'derived') and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) = the record is identical to v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) (optional)
 
     try:
         # Returns a detailed record for one school
-        api_response = api_instance.get_school(id)
+        api_response = api_instance.get_school(id, include_ranges=include_ranges)
         print("The response of SchoolsApi->get_school:\n")
         pprint(api_response)
     except Exception as e:
@@ -72,10 +73,11 @@ with schooldigger.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| The 12 digit School ID (e.g. 064215006903) | 
+ **include_ranges** | **bool**| true &#x3D; return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status (&#39;range&#39;, &#39;suppressed&#39;, &#39;legacyImputed&#39; or &#39;derived&#39;) and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) &#x3D; the record is identical to v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) | [optional] 
 
 ### Return type
 
-[**APISchoolFull22**](APISchoolFull22.md)
+[**APISchoolFull30**](APISchoolFull30.md)
 
 ### Authorization
 

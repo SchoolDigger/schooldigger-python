@@ -1,5 +1,6 @@
-# APITestScoreWrapper
+# APITestScoreWrapper30
 
+One test / subject / grade / year entry as returned by API 3.0, with school, district and state APITestScore30  objects. Unlike API 2.4 (APITestScoreWrapper) it does not hide rows the pre-2026 importer would not have  produced (spec R0 Invariant 2): a score object is present whenever the state reported anything for that level,  and the entry is present whenever at least one score object is.
 
 ## Properties
 
@@ -9,9 +10,9 @@ Name | Type | Description | Notes
 **subject** | **str** | Test subject | [optional] 
 **year** | **int** | Year test was administered (2018 &#x3D; 2017-18) | [optional] 
 **grade** | **str** | Grade level for which this test score applies (e.g. &#39;3&#39;, &#39;5&#39;, &#39;8&#39;, &#39;10&#39;, &#39;HS&#39;) | [optional] 
-**school_test_score** | [**APITestScore**](APITestScore.md) |  | [optional] 
-**district_test_score** | [**APITestScore**](APITestScore.md) |  | [optional] 
-**state_test_score** | [**APITestScore**](APITestScore.md) |  | [optional] 
+**school_test_score** | [**APITestScore30**](APITestScore30.md) |  | [optional] 
+**district_test_score** | [**APITestScore30**](APITestScore30.md) |  | [optional] 
+**state_test_score** | [**APITestScore30**](APITestScore30.md) |  | [optional] 
 **tier1** | **str** | Label for the lowest performance tier on this test (e.g. &#39;Below Basic&#39;, &#39;Level 1&#39;). Tier labels are state-specific. Enterprise API level only. | [optional] 
 **tier2** | **str** | Label for the second performance tier (e.g. &#39;Basic&#39;, &#39;Level 2&#39;). Enterprise API level only. | [optional] 
 **tier3** | **str** | Label for the third performance tier (e.g. &#39;Proficient&#39;, &#39;Level 3&#39;). Enterprise API level only. | [optional] 
@@ -21,19 +22,19 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from schooldigger.models.api_test_score_wrapper import APITestScoreWrapper
+from schooldigger.models.api_test_score_wrapper30 import APITestScoreWrapper30
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of APITestScoreWrapper from a JSON string
-api_test_score_wrapper_instance = APITestScoreWrapper.from_json(json)
+# create an instance of APITestScoreWrapper30 from a JSON string
+api_test_score_wrapper30_instance = APITestScoreWrapper30.from_json(json)
 # print the JSON string representation of the object
-print(APITestScoreWrapper.to_json())
+print(APITestScoreWrapper30.to_json())
 
 # convert the object into a dict
-api_test_score_wrapper_dict = api_test_score_wrapper_instance.to_dict()
-# create an instance of APITestScoreWrapper from a dict
-api_test_score_wrapper_from_dict = APITestScoreWrapper.from_dict(api_test_score_wrapper_dict)
+api_test_score_wrapper30_dict = api_test_score_wrapper30_instance.to_dict()
+# create an instance of APITestScoreWrapper30 from a dict
+api_test_score_wrapper30_from_dict = APITestScoreWrapper30.from_dict(api_test_score_wrapper30_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
