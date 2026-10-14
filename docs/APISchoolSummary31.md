@@ -1,11 +1,12 @@
-# APISchoolSummary21
+# APISchoolSummary31
 
-APISchool2Summary: A summary of a school record. For the full school record, call /schools/{id}
+School record in an API 3.1 school list: the v2.4 / v3.0 list record plus lowIncome.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**low_income** | [**APILowIncome**](APILowIncome.md) |  | [optional] 
 **schoolid** | **str** | SchoolDigger School ID Number (12 digits) | [optional] 
 **school_name** | **str** | School name | [optional] 
 **phone** | **str** | School phone number | [optional] 
@@ -13,7 +14,7 @@ Name | Type | Description | Notes
 **url_compare** | **str** | SchoolDigger URL for comparing this school to nearby schools | [optional] 
 **address** | [**APILocation**](APILocation.md) |  | [optional] 
 **distance** | **float** | Distance from nearLatitude/nearLongitude, boundaryLatitude/boundaryLongitude, or boundaryAddress (if supplied) | [optional] 
-**locale** | **str** | NCES urban-centric locale classification (e.g. &#39;City: Large&#39;, &#39;Suburb: Midsize&#39;, &#39;Rural: Fringe&#39;). Categories: City (Large/Midsize/Small), Suburb (Large/Midsize/Small), Town (Fringe/Distant/Remote), Rural (Fringe/Distant/Remote). See https://nces.ed.gov/ccd/rural_locales.asp | [optional] 
+**locale** | **str** | NCES Locale of school (https://nces.ed.gov/ccd/rural_locales.asp) | [optional] 
 **low_grade** | **str** | The low grade served by this school (PK &#x3D; Prekindergarten, K &#x3D; Kindergarten) | [optional] 
 **high_grade** | **str** | The high grade served by this school | [optional] 
 **school_level** | **str** | The level of school (Elementary, Middle, High, Private, Alternative) | [optional] 
@@ -33,23 +34,24 @@ Name | Type | Description | Notes
 **private_has_library** | **bool** | Indicates if the school has a library (private schools only) | [optional] 
 **private_coed** | **str** | Coed/Boys/Girls (private schools only) | [optional] 
 **private_orientation** | **str** | Affiliation of the school (private schools only) | [optional] 
+**nces_private_school_id** | **str** | The NCES ID of the school (private schools only) | [optional] 
 
 ## Example
 
 ```python
-from schooldigger.models.api_school_summary21 import APISchoolSummary21
+from schooldigger.models.api_school_summary31 import APISchoolSummary31
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of APISchoolSummary21 from a JSON string
-api_school_summary21_instance = APISchoolSummary21.from_json(json)
+# create an instance of APISchoolSummary31 from a JSON string
+api_school_summary31_instance = APISchoolSummary31.from_json(json)
 # print the JSON string representation of the object
-print(APISchoolSummary21.to_json())
+print(APISchoolSummary31.to_json())
 
 # convert the object into a dict
-api_school_summary21_dict = api_school_summary21_instance.to_dict()
-# create an instance of APISchoolSummary21 from a dict
-api_school_summary21_from_dict = APISchoolSummary21.from_dict(api_school_summary21_dict)
+api_school_summary31_dict = api_school_summary31_instance.to_dict()
+# create an instance of APISchoolSummary31 from a dict
+api_school_summary31_from_dict = APISchoolSummary31.from_dict(api_school_summary31_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -5,3 +5,6 @@ LICENSE
 pyproject.toml
 setup.py
 setup.cfg
+.gitlab-ci.yml
+.travis.yml
+git_push.sh

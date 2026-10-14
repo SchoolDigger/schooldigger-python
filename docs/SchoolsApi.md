@@ -4,16 +4,16 @@ All URIs are relative to *https://api.schooldigger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_school**](SchoolsApi.md#get_school) | **GET** /v3.0/schools/{id} | Returns a detailed record for one school
-[**search_schools**](SchoolsApi.md#search_schools) | **GET** /v3.0/schools | Returns a list of schools
+[**get_school**](SchoolsApi.md#get_school) | **GET** /v3.1/schools/{id} | Returns a detailed record for one school
+[**search_schools**](SchoolsApi.md#search_schools) | **GET** /v3.1/schools | Returns a list of schools
 
 
 # **get_school**
-> APISchoolFull30 get_school(id, include_ranges=include_ranges)
+> APISchoolFull31Ranges get_school(id, include_ranges=include_ranges)
 
 Returns a detailed record for one school
 
-Retrieve a school record from the SchoolDigger database. Version 3.0 adds includeRanges: with it, test-score percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent); without it the record is identical to v2.4.
+Retrieve a school record from the SchoolDigger database. Version 3.1 adds lowIncome (the school's low-income measure: free/reduced-price lunch eligibility, else direct certification, else Community Eligibility) and, for each year in schoolYearlyDetails, freeReducedLunch and directCertification. includeRanges works as in 3.0 and only changes test scores.
 
 ### Example
 
@@ -22,7 +22,7 @@ Retrieve a school record from the SchoolDigger database. Version 3.0 adds includ
 
 ```python
 import schooldigger
-from schooldigger.models.api_school_full30 import APISchoolFull30
+from schooldigger.models.api_school_full31_ranges import APISchoolFull31Ranges
 from schooldigger.rest import ApiException
 from pprint import pprint
 
@@ -54,7 +54,7 @@ with schooldigger.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = schooldigger.SchoolsApi(api_client)
     id = 'id_example' # str | The 12 digit School ID (e.g. 064215006903)
-    include_ranges = True # bool | true = return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status ('range', 'suppressed', 'legacyImputed' or 'derived') and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) = the record is identical to v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) (optional)
+    include_ranges = True # bool | true = return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status ('range', 'suppressed', 'legacyImputed' or 'derived') and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) = test scores as in v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) (optional)
 
     try:
         # Returns a detailed record for one school
@@ -73,11 +73,11 @@ with schooldigger.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| The 12 digit School ID (e.g. 064215006903) | 
- **include_ranges** | **bool**| true &#x3D; return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status (&#39;range&#39;, &#39;suppressed&#39;, &#39;legacyImputed&#39; or &#39;derived&#39;) and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) &#x3D; the record is identical to v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) | [optional] 
+ **include_ranges** | **bool**| true &#x3D; return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status (&#39;range&#39;, &#39;suppressed&#39;, &#39;legacyImputed&#39; or &#39;derived&#39;) and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) &#x3D; test scores as in v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) | [optional] 
 
 ### Return type
 
-[**APISchoolFull30**](APISchoolFull30.md)
+[**APISchoolFull31Ranges**](APISchoolFull31Ranges.md)
 
 ### Authorization
 
@@ -97,11 +97,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **search_schools**
-> APISchoolList22 search_schools(st=st, q=q, q_search_school_name_only=q_search_school_name_only, district_id=district_id, level=level, city=city, zip=zip, is_magnet=is_magnet, is_charter=is_charter, is_virtual=is_virtual, is_title_i=is_title_i, is_title_i_schoolwide=is_title_i_schoolwide, near_latitude=near_latitude, near_longitude=near_longitude, near_address=near_address, distance_miles=distance_miles, box_latitude_nw=box_latitude_nw, box_longitude_nw=box_longitude_nw, box_latitude_se=box_latitude_se, box_longitude_se=box_longitude_se, page=page, per_page=per_page, sort_by=sort_by, include_unranked_schools_in_rank_sort=include_unranked_schools_in_rank_sort)
+> APISchoolList31 search_schools(st=st, q=q, q_search_school_name_only=q_search_school_name_only, district_id=district_id, level=level, city=city, zip=zip, is_magnet=is_magnet, is_charter=is_charter, is_virtual=is_virtual, is_title_i=is_title_i, is_title_i_schoolwide=is_title_i_schoolwide, near_latitude=near_latitude, near_longitude=near_longitude, near_address=near_address, distance_miles=distance_miles, box_latitude_nw=box_latitude_nw, box_longitude_nw=box_longitude_nw, box_latitude_se=box_latitude_se, box_longitude_se=box_longitude_se, page=page, per_page=per_page, sort_by=sort_by, include_unranked_schools_in_rank_sort=include_unranked_schools_in_rank_sort)
 
 Returns a list of schools
 
-Search the SchoolDigger database for schools. You may use any combination of criteria as query parameters. New in v2.4: location searches (nearLatitude/nearLongitude, nearAddress, or box coordinates) no longer require 'st' and may return schools from more than one state.
+Search the SchoolDigger database for schools. You may use any combination of criteria as query parameters. Version 3.1 adds lowIncome to each school (free/reduced-price lunch eligibility, else direct certification, else Community Eligibility).
 
 ### Example
 
@@ -110,7 +110,7 @@ Search the SchoolDigger database for schools. You may use any combination of cri
 
 ```python
 import schooldigger
-from schooldigger.models.api_school_list22 import APISchoolList22
+from schooldigger.models.api_school_list31 import APISchoolList31
 from schooldigger.rest import ApiException
 from pprint import pprint
 
@@ -209,7 +209,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**APISchoolList22**](APISchoolList22.md)
+[**APISchoolList31**](APISchoolList31.md)
 
 ### Authorization
 

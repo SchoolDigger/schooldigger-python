@@ -4,8 +4,8 @@ All URIs are relative to *https://api.schooldigger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_district_rankings**](RankingsApi.md#get_district_rankings) | **GET** /v3.0/rankings/districts/{st} | Returns a SchoolDigger district ranking list
-[**get_school_rankings**](RankingsApi.md#get_school_rankings) | **GET** /v3.0/rankings/schools/{st} | Returns a SchoolDigger school ranking list
+[**get_district_rankings**](RankingsApi.md#get_district_rankings) | **GET** /v3.1/rankings/districts/{st} | Returns a SchoolDigger district ranking list
+[**get_school_rankings**](RankingsApi.md#get_school_rankings) | **GET** /v3.1/rankings/schools/{st} | Returns a SchoolDigger school ranking list
 
 
 # **get_district_rankings**
@@ -99,9 +99,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_school_rankings**
-> APISchoolListRank21 get_school_rankings(st, year=year, level=level, page=page, per_page=per_page)
+> APISchoolListRank31 get_school_rankings(st, year=year, level=level, page=page, per_page=per_page)
 
 Returns a SchoolDigger school ranking list
+
+Version 3.1 adds lowIncome to each school (free/reduced-price lunch eligibility, else direct certification, else Community Eligibility). FRL and DC values are not comparable.
 
 ### Example
 
@@ -110,7 +112,7 @@ Returns a SchoolDigger school ranking list
 
 ```python
 import schooldigger
-from schooldigger.models.api_school_list_rank21 import APISchoolListRank21
+from schooldigger.models.api_school_list_rank31 import APISchoolListRank31
 from schooldigger.rest import ApiException
 from pprint import pprint
 
@@ -171,7 +173,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**APISchoolListRank21**](APISchoolListRank21.md)
+[**APISchoolListRank31**](APISchoolListRank31.md)
 
 ### Authorization
 

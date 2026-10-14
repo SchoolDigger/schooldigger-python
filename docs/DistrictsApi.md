@@ -4,8 +4,8 @@ All URIs are relative to *https://api.schooldigger.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_district**](DistrictsApi.md#get_district) | **GET** /v3.0/districts/{id} | Returns a detailed record for one district
-[**search_districts**](DistrictsApi.md#search_districts) | **GET** /v3.0/districts | Returns a list of districts
+[**get_district**](DistrictsApi.md#get_district) | **GET** /v3.1/districts/{id} | Returns a detailed record for one district
+[**search_districts**](DistrictsApi.md#search_districts) | **GET** /v3.1/districts | Returns a list of districts
 
 
 # **get_district**

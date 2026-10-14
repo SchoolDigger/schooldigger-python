@@ -41,8 +41,8 @@ print(f"Enrollment: {school.school_yearly_details[0].number_of_students}")
 
 ## Test scores in API 3.0
 
-This version of the SDK targets API 3.0. Pass `include_ranges=True` to `get_school` / `get_district`
-(without it the record is identical to API 2.4). Each test-score percent
+Pass `include_ranges=True` to `get_school` / `get_district` (without it, test scores are
+as in API 2.4). Each test-score percent
 (`percent_met_standard`, `percent_tier1` ... `percent_tier5`) is **either a number or an
 `APIReportedPercent` object** (`status` of `range`, `suppressed`, `legacyImputed` or `derived`,
 with optional `value`, `low`, `high`), and is `None` when the state reported nothing. The SDK
@@ -72,6 +72,37 @@ for ts in school.test_scores or []:
 
 See [Data Quality and Suppression](https://developer.schooldigger.com/data-quality) for the full
 vocabulary and rendering rule. API 2.4 and below (SDK 1.x) return only exact values.
+
+## Low-income measure in API 3.1
+
+SDK 3.0 targets API 3.1. School records from `get_school`, `search_schools` and
+`get_school_rankings` carry `low_income`: the school's one low-income measure, `type` `"FRL"`
+(free/reduced-price lunch eligible), `"DC"` (directly certified for free meals; used where the
+school reports no usable free/reduced count) or `"CEP"` (likely serves free meals to all
+students under the Community Eligibility Provision; no `percent`), with `year`, `percent`,
+`count`, `enrollment`, `community_eligibility_likely` and `statewide_free_meals`. It is `None`
+when the school has no usable value. FRL and DC are not comparable: don't sort one against the
+other.
+
+```python
+school = api.get_school("250309000385")
+li = school.low_income
+if li is None:
+    print("no low-income figure")
+elif li.type == "CEP":
+    print(f"All students receive free meals (Community Eligibility, {li.year - 1}-{li.year % 100:02d})")
+else:
+    label = "Free/reduced lunch eligible" if li.type == "FRL" else "Directly certified for free meals"
+    print(f"{label}: {li.percent}% ({li.year - 1}-{li.year % 100:02d})")
+for y in school.school_yearly_details or []:
+    print(y.year, y.free_reduced_lunch, y.direct_certification)
+```
+
+Each yearly detail has `free_reduced_lunch` (count and percent, or a `status` of
+`communityEligibility`, `repeated` or `aboveEnrollment`) and `direct_certification`. SDK 3.0
+renames the school models for API 3.1, a breaking change for code that imports them by name (`APISchoolFull31Ranges`, `APISchoolList31`,
+`APISchoolSummary31`, `APISchoolListRank31`, `APISchoolSummaryRank31`). See
+[Low-income measures](https://developer.schooldigger.com/data-quality#low-income).
 
 ## Authentication
 
