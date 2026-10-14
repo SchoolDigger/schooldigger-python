@@ -102,15 +102,13 @@ class APIDistrictSummary21(BaseModel):
         _items = []
         if self.rank_history:
             for _item_rank_history in self.rank_history:
-                if _item_rank_history:
-                    _items.append(_item_rank_history.to_dict())
+                _items.append(_item_rank_history.to_dict() if _item_rank_history is not None else None)
             _dict['rankHistory'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in district_yearly_details (list)
         _items = []
         if self.district_yearly_details:
             for _item_district_yearly_details in self.district_yearly_details:
-                if _item_district_yearly_details:
-                    _items.append(_item_district_yearly_details.to_dict())
+                _items.append(_item_district_yearly_details.to_dict() if _item_district_yearly_details is not None else None)
             _dict['districtYearlyDetails'] = _items
         return _dict
 

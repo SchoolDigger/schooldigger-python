@@ -75,8 +75,7 @@ class APIAutocompleteDistrictResult(BaseModel):
         _items = []
         if self.district_matches:
             for _item_district_matches in self.district_matches:
-                if _item_district_matches:
-                    _items.append(_item_district_matches.to_dict())
+                _items.append(_item_district_matches.to_dict() if _item_district_matches is not None else None)
             _dict['districtMatches'] = _items
         return _dict
 

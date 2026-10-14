@@ -75,8 +75,7 @@ class APIAutocompleteSchoolResult23(BaseModel):
         _items = []
         if self.school_matches:
             for _item_school_matches in self.school_matches:
-                if _item_school_matches:
-                    _items.append(_item_school_matches.to_dict())
+                _items.append(_item_school_matches.to_dict() if _item_school_matches is not None else None)
             _dict['schoolMatches'] = _items
         return _dict
 

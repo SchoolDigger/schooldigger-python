@@ -81,8 +81,7 @@ class APIDistrictListRank21(BaseModel):
         _items = []
         if self.district_list:
             for _item_district_list in self.district_list:
-                if _item_district_list:
-                    _items.append(_item_district_list.to_dict())
+                _items.append(_item_district_list.to_dict() if _item_district_list is not None else None)
             _dict['districtList'] = _items
         return _dict
 

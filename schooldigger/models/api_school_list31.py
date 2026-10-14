@@ -77,8 +77,7 @@ class APISchoolList31(BaseModel):
         _items = []
         if self.school_list:
             for _item_school_list in self.school_list:
-                if _item_school_list:
-                    _items.append(_item_school_list.to_dict())
+                _items.append(_item_school_list.to_dict() if _item_school_list is not None else None)
             _dict['schoolList'] = _items
         return _dict
 

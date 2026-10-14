@@ -77,8 +77,7 @@ class APIBoundary12(BaseModel):
         _items = []
         if self.polyline_collection:
             for _item_polyline_collection in self.polyline_collection:
-                if _item_polyline_collection:
-                    _items.append(_item_polyline_collection.to_dict())
+                _items.append(_item_polyline_collection.to_dict() if _item_polyline_collection is not None else None)
             _dict['polylineCollection'] = _items
         return _dict
 

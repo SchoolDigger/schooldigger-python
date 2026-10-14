@@ -105,8 +105,7 @@ class APIDistrictFull30(BaseModel):
         _items = []
         if self.test_scores:
             for _item_test_scores in self.test_scores:
-                if _item_test_scores:
-                    _items.append(_item_test_scores.to_dict())
+                _items.append(_item_test_scores.to_dict() if _item_test_scores is not None else None)
             _dict['testScores'] = _items
         # override the default output from pydantic by calling `to_dict()` of address
         if self.address:
@@ -118,29 +117,25 @@ class APIDistrictFull30(BaseModel):
         _items = []
         if self.finance:
             for _item_finance in self.finance:
-                if _item_finance:
-                    _items.append(_item_finance.to_dict())
+                _items.append(_item_finance.to_dict() if _item_finance is not None else None)
             _dict['finance'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in graduation_rates (list)
         _items = []
         if self.graduation_rates:
             for _item_graduation_rates in self.graduation_rates:
-                if _item_graduation_rates:
-                    _items.append(_item_graduation_rates.to_dict())
+                _items.append(_item_graduation_rates.to_dict() if _item_graduation_rates is not None else None)
             _dict['graduationRates'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in dropout_rates (list)
         _items = []
         if self.dropout_rates:
             for _item_dropout_rates in self.dropout_rates:
-                if _item_dropout_rates:
-                    _items.append(_item_dropout_rates.to_dict())
+                _items.append(_item_dropout_rates.to_dict() if _item_dropout_rates is not None else None)
             _dict['dropoutRates'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in chronic_absenteeism_rates (list)
         _items = []
         if self.chronic_absenteeism_rates:
             for _item_chronic_absenteeism_rates in self.chronic_absenteeism_rates:
-                if _item_chronic_absenteeism_rates:
-                    _items.append(_item_chronic_absenteeism_rates.to_dict())
+                _items.append(_item_chronic_absenteeism_rates.to_dict() if _item_chronic_absenteeism_rates is not None else None)
             _dict['chronicAbsenteeismRates'] = _items
         # override the default output from pydantic by calling `to_dict()` of county
         if self.county:
@@ -149,15 +144,13 @@ class APIDistrictFull30(BaseModel):
         _items = []
         if self.rank_history:
             for _item_rank_history in self.rank_history:
-                if _item_rank_history:
-                    _items.append(_item_rank_history.to_dict())
+                _items.append(_item_rank_history.to_dict() if _item_rank_history is not None else None)
             _dict['rankHistory'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in district_yearly_details (list)
         _items = []
         if self.district_yearly_details:
             for _item_district_yearly_details in self.district_yearly_details:
-                if _item_district_yearly_details:
-                    _items.append(_item_district_yearly_details.to_dict())
+                _items.append(_item_district_yearly_details.to_dict() if _item_district_yearly_details is not None else None)
             _dict['districtYearlyDetails'] = _items
         return _dict
 

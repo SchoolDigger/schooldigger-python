@@ -119,15 +119,13 @@ class APISchoolSummaryRank31(BaseModel):
         _items = []
         if self.rank_history:
             for _item_rank_history in self.rank_history:
-                if _item_rank_history:
-                    _items.append(_item_rank_history.to_dict())
+                _items.append(_item_rank_history.to_dict() if _item_rank_history is not None else None)
             _dict['rankHistory'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in school_yearly_details (list)
         _items = []
         if self.school_yearly_details:
             for _item_school_yearly_details in self.school_yearly_details:
-                if _item_school_yearly_details:
-                    _items.append(_item_school_yearly_details.to_dict())
+                _items.append(_item_school_yearly_details.to_dict() if _item_school_yearly_details is not None else None)
             _dict['schoolYearlyDetails'] = _items
         return _dict
 
