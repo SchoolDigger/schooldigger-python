@@ -1,5 +1,7 @@
 name: Regenerate SDK
 
+# Regenerates and commits the code only. To publish, push a vX.Y.Z tag (publish.yml).
+
 on:
   workflow_dispatch:
     inputs:
@@ -34,7 +36,7 @@ jobs:
       - name: Install tools
         run: |
           npm install -g @openapitools/openapi-generator-cli swagger2openapi
-          pip install build twine
+          pip install build
 
       - name: Download latest spec
         run: curl -o swagger.json https://api.schooldigger.com/swagger/docs/v3.1
@@ -54,13 +56,8 @@ jobs:
             --package-name schooldigger \
             --additional-properties=packageVersion=${{ github.event.inputs.version }},projectName=schooldigger
 
-      - name: Build and publish
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          python -m build
-          twine upload --verbose dist/*
+      - name: Build (check only; publish.yml publishes on a vX.Y.Z tag)
+        run: python -m build
 
       - name: Commit updated spec and generated code
         run: |
