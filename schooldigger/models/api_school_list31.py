@@ -27,9 +27,9 @@ from pydantic_core import to_jsonable_python
 
 class APISchoolList31(BaseModel):
     """
-    API 3.1 school list (/v3.1/schools): the v2.4 / v3.0 list with lowIncome on each school  (SchoolListSD2_API_11 supplies the measure).
+    API 3.1 school list (/v3.1/schools): the v2.4 / v3.0 list with lowIncome and the vaccination headline on each  school (SchoolListSD2_API_12: SchoolListSD2_API_11 plus the VaxSchoolSummary columns, issue-76-vax-90).
     """ # noqa: E501
-    school_list: Optional[List[APISchoolSummary31]] = Field(default=None, description="The schools that match your query, each with lowIncome", alias="schoolList")
+    school_list: Optional[List[APISchoolSummary31]] = Field(default=None, description="The schools that match your query, each with lowIncome and vaccination", alias="schoolList")
     number_of_schools: Optional[StrictInt] = Field(default=None, description="The total count of schools that match your query", alias="numberOfSchools")
     number_of_pages: Optional[StrictInt] = Field(default=None, description="The total count of pages in your query list based on given per_page value", alias="numberOfPages")
     __properties: ClassVar[List[str]] = ["schoolList", "numberOfSchools", "numberOfPages"]

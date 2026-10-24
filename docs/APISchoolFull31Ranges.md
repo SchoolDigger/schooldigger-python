@@ -1,12 +1,13 @@
 # APISchoolFull31Ranges
 
-School detail record for API 3.1 with includeRanges=true: the v3.0 includeRanges record (test-score percents as a  number or an APIReportedPercent object) plus lowIncome and the yearly freeReducedLunch / directCertification objects.
+School detail record for API 3.1 with includeRanges=true: the v3.0 includeRanges record (test-score percents as a  number or an APIReportedPercent object) plus lowIncome, the yearly freeReducedLunch / directCertification objects  and vaccination.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **low_income** | [**APILowIncome**](APILowIncome.md) |  | [optional] 
+**vaccination** | [**APIVaccination**](APIVaccination.md) |  | [optional] 
 **school_yearly_details** | [**List[APIYearlyDemographics31]**](APIYearlyDemographics31.md) | Yearly enrollment, demographics, and staffing for this school, most recent year first. API 3.1 adds freeReducedLunch and directCertification to each year. | [optional] 
 **test_scores** | [**List[APITestScoreWrapper30]**](APITestScoreWrapper30.md) | Standardized test score results with school, district, and state comparisons. Each entry represents one test/subject/grade/year combination. Percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent). Includes optional tier breakdowns (Enterprise level). Tests are state-specific (e.g. SBA, WCAS in WA; CAASPP in CA). Requires Pro or Enterprise API subscription. | [optional] 
 **schoolid** | **str** | SchoolDigger School ID Number (12 digits) | [optional] 

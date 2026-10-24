@@ -1,11 +1,12 @@
 # APISchoolSummary31
 
-School record in an API 3.1 school list: the v2.4 / v3.0 list record plus lowIncome.
+School record in an API 3.1 school list: the v2.4 / v3.0 list record plus lowIncome and the vaccination headline.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**vaccination** | [**APIVaxHeadline**](APIVaxHeadline.md) |  | [optional] 
 **low_income** | [**APILowIncome**](APILowIncome.md) |  | [optional] 
 **schoolid** | **str** | SchoolDigger School ID Number (12 digits) | [optional] 
 **school_name** | **str** | School name | [optional] 

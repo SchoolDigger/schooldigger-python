@@ -31,6 +31,7 @@ from schooldigger.models.api_rank_history import APIRankHistory
 from schooldigger.models.api_school_finance import APISchoolFinance
 from schooldigger.models.api_school_review import APISchoolReview
 from schooldigger.models.api_test_score_wrapper30 import APITestScoreWrapper30
+from schooldigger.models.api_vaccination import APIVaccination
 from schooldigger.models.api_yearly_demographics31 import APIYearlyDemographics31
 from typing import Optional, Set
 from typing_extensions import Self
@@ -38,9 +39,10 @@ from pydantic_core import to_jsonable_python
 
 class APISchoolFull31Ranges(BaseModel):
     """
-    School detail record for API 3.1 with includeRanges=true: the v3.0 includeRanges record (test-score percents as a  number or an APIReportedPercent object) plus lowIncome and the yearly freeReducedLunch / directCertification objects.
+    School detail record for API 3.1 with includeRanges=true: the v3.0 includeRanges record (test-score percents as a  number or an APIReportedPercent object) plus lowIncome, the yearly freeReducedLunch / directCertification objects  and vaccination.
     """ # noqa: E501
     low_income: Optional[APILowIncome] = Field(default=None, alias="lowIncome")
+    vaccination: Optional[APIVaccination] = None
     school_yearly_details: Optional[List[APIYearlyDemographics31]] = Field(default=None, description="Yearly enrollment, demographics, and staffing for this school, most recent year first. API 3.1 adds freeReducedLunch and directCertification to each year.", alias="schoolYearlyDetails")
     test_scores: Optional[List[APITestScoreWrapper30]] = Field(default=None, description="Standardized test score results with school, district, and state comparisons. Each entry represents one test/subject/grade/year combination. Percent metrics are a number when the state reported an exact value, otherwise an object describing a range, a suppressed value, a legacy stand-in or a derived value (see APIReportedPercent). Includes optional tier breakdowns (Enterprise level). Tests are state-specific (e.g. SBA, WCAS in WA; CAASPP in CA). Requires Pro or Enterprise API subscription.", alias="testScores")
     schoolid: Optional[StrictStr] = Field(default=None, description="SchoolDigger School ID Number (12 digits)")
@@ -75,7 +77,7 @@ class APISchoolFull31Ranges(BaseModel):
     chronic_absenteeism_rates: Optional[List[APIChronicAbsenteeismRate]] = Field(default=None, description="Chronic absenteeism rates (students missing 15+ days) at school, district, and state levels (Pro and Enterprise API level only). Array is sorted most recent year first. Data availability varies by state.", alias="chronicAbsenteeismRates")
     rank_history: Optional[List[APIRankHistory]] = Field(default=None, description="SchoolDigger yearly rank history for this school, sorted most recent year first. Schools are ranked within their state and level (Elementary, Middle, or High). Includes all available years — the full record returns more years than the summary in search results.", alias="rankHistory")
     rank_movement: Optional[StrictInt] = Field(default=None, description="Returns the movement of rank for this school between current and previous year", alias="rankMovement")
-    __properties: ClassVar[List[str]] = ["lowIncome", "schoolYearlyDetails", "testScores", "schoolid", "schoolName", "phone", "url", "urlSchoolDigger", "urlCompareSchoolDigger", "address", "locale", "lowGrade", "highGrade", "schoolLevel", "isCharterSchool", "isMagnetSchool", "isVirtualSchool", "isTitleISchool", "isTitleISchoolwideSchool", "isPrivate", "privateDays", "privateHours", "privateHasLibrary", "privateCoed", "privateOrientation", "ncesPrivateSchoolID", "district", "county", "reviews", "finance", "graduationRates", "dropoutRates", "chronicAbsenteeismRates", "rankHistory", "rankMovement"]
+    __properties: ClassVar[List[str]] = ["lowIncome", "vaccination", "schoolYearlyDetails", "testScores", "schoolid", "schoolName", "phone", "url", "urlSchoolDigger", "urlCompareSchoolDigger", "address", "locale", "lowGrade", "highGrade", "schoolLevel", "isCharterSchool", "isMagnetSchool", "isVirtualSchool", "isTitleISchool", "isTitleISchoolwideSchool", "isPrivate", "privateDays", "privateHours", "privateHasLibrary", "privateCoed", "privateOrientation", "ncesPrivateSchoolID", "district", "county", "reviews", "finance", "graduationRates", "dropoutRates", "chronicAbsenteeismRates", "rankHistory", "rankMovement"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -119,6 +121,9 @@ class APISchoolFull31Ranges(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of low_income
         if self.low_income:
             _dict['lowIncome'] = self.low_income.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of vaccination
+        if self.vaccination:
+            _dict['vaccination'] = self.vaccination.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in school_yearly_details (list)
         _items = []
         if self.school_yearly_details:
@@ -189,6 +194,7 @@ class APISchoolFull31Ranges(BaseModel):
 
         _obj = cls.model_validate({
             "lowIncome": APILowIncome.from_dict(obj["lowIncome"]) if obj.get("lowIncome") is not None else None,
+            "vaccination": APIVaccination.from_dict(obj["vaccination"]) if obj.get("vaccination") is not None else None,
             "schoolYearlyDetails": [APIYearlyDemographics31.from_dict(_item) for _item in obj["schoolYearlyDetails"]] if obj.get("schoolYearlyDetails") is not None else None,
             "testScores": [APITestScoreWrapper30.from_dict(_item) for _item in obj["testScores"]] if obj.get("testScores") is not None else None,
             "schoolid": obj.get("schoolid"),

@@ -9,11 +9,11 @@ Method | HTTP request | Description
 
 
 # **get_school**
-> APISchoolFull31Ranges get_school(id, include_ranges=include_ranges)
+> APISchoolFull31Ranges get_school(id, include_ranges=include_ranges, include_vaccination_detail=include_vaccination_detail)
 
 Returns a detailed record for one school
 
-Retrieve a school record from the SchoolDigger database. Version 3.1 adds lowIncome (the school's low-income measure: free/reduced-price lunch eligibility, else direct certification, else Community Eligibility) and, for each year in schoolYearlyDetails, freeReducedLunch and directCertification. includeRanges works as in 3.0 and only changes test scores.
+Retrieve a school record from the SchoolDigger database. Version 3.1 adds lowIncome (the school's low-income measure: free/reduced-price lunch eligibility, else direct certification, else Community Eligibility) and, for each year in schoolYearlyDetails, freeReducedLunch and directCertification. It also adds vaccination: the state's published vaccination rates for the school (source, headline and every figure by year, grade, vaccine and status, with the state's own district, county and state figures for the same measures; by default the headline grade for its most recent year; includeVaccinationDetail=true for every grade and year). includeRanges works as in 3.0 and only changes test scores.
 
 ### Example
 
@@ -55,10 +55,11 @@ with schooldigger.ApiClient(configuration) as api_client:
     api_instance = schooldigger.SchoolsApi(api_client)
     id = 'id_example' # str | The 12 digit School ID (e.g. 064215006903)
     include_ranges = True # bool | true = return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status ('range', 'suppressed', 'legacyImputed' or 'derived') and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) = test scores as in v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) (optional)
+    include_vaccination_detail = True # bool | true = vaccination.figures holds every grade and every school year with published vaccination figures (years within your plan's yearly history window, as schoolYearlyDetails); false (default) = one grade (the headline grade, else the first grade published for the school) for its most recent year. vaccination.gradesAvailable and vaccination.yearsAvailable list what exists either way. (optional) (optional)
 
     try:
         # Returns a detailed record for one school
-        api_response = api_instance.get_school(id, include_ranges=include_ranges)
+        api_response = api_instance.get_school(id, include_ranges=include_ranges, include_vaccination_detail=include_vaccination_detail)
         print("The response of SchoolsApi->get_school:\n")
         pprint(api_response)
     except Exception as e:
@@ -74,6 +75,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| The 12 digit School ID (e.g. 064215006903) | 
  **include_ranges** | **bool**| true &#x3D; return test-score percent metrics as the state reported them: a number when exact, otherwise an object with a status (&#39;range&#39;, &#39;suppressed&#39;, &#39;legacyImputed&#39; or &#39;derived&#39;) and, when available, value / low / high; rows the state reported only as ranges or suppressed values are included. false (default) &#x3D; test scores as in v2.4 (exact values only). See https://developer.schooldigger.com/data-quality (optional) | [optional] 
+ **include_vaccination_detail** | **bool**| true &#x3D; vaccination.figures holds every grade and every school year with published vaccination figures (years within your plan&#39;s yearly history window, as schoolYearlyDetails); false (default) &#x3D; one grade (the headline grade, else the first grade published for the school) for its most recent year. vaccination.gradesAvailable and vaccination.yearsAvailable list what exists either way. (optional) | [optional] 
 
 ### Return type
 
@@ -101,7 +103,7 @@ Name | Type | Description  | Notes
 
 Returns a list of schools
 
-Search the SchoolDigger database for schools. You may use any combination of criteria as query parameters. Version 3.1 adds lowIncome to each school (free/reduced-price lunch eligibility, else direct certification, else Community Eligibility).
+Search the SchoolDigger database for schools. You may use any combination of criteria as query parameters. Version 3.1 adds lowIncome to each school (free/reduced-price lunch eligibility, else direct certification, else Community Eligibility) and vaccination (the school's vaccination headline as the state published it).
 
 ### Example
 

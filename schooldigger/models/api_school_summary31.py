@@ -25,6 +25,7 @@ from schooldigger.models.api_district_sum import APIDistrictSum
 from schooldigger.models.api_location import APILocation
 from schooldigger.models.api_low_income import APILowIncome
 from schooldigger.models.api_rank_history import APIRankHistory
+from schooldigger.models.api_vax_headline import APIVaxHeadline
 from schooldigger.models.api_yearly_demographics import APIYearlyDemographics
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,8 +33,9 @@ from pydantic_core import to_jsonable_python
 
 class APISchoolSummary31(BaseModel):
     """
-    School record in an API 3.1 school list: the v2.4 / v3.0 list record plus lowIncome.
+    School record in an API 3.1 school list: the v2.4 / v3.0 list record plus lowIncome and the vaccination headline.
     """ # noqa: E501
+    vaccination: Optional[APIVaxHeadline] = None
     low_income: Optional[APILowIncome] = Field(default=None, alias="lowIncome")
     schoolid: Optional[StrictStr] = Field(default=None, description="SchoolDigger School ID Number (12 digits)")
     school_name: Optional[StrictStr] = Field(default=None, description="School name", alias="schoolName")
@@ -63,7 +65,7 @@ class APISchoolSummary31(BaseModel):
     private_coed: Optional[StrictStr] = Field(default=None, description="Coed/Boys/Girls (private schools only)", alias="privateCoed")
     private_orientation: Optional[StrictStr] = Field(default=None, description="Affiliation of the school (private schools only)", alias="privateOrientation")
     nces_private_school_id: Optional[StrictStr] = Field(default=None, description="The NCES ID of the school (private schools only)", alias="ncesPrivateSchoolID")
-    __properties: ClassVar[List[str]] = ["lowIncome", "schoolid", "schoolName", "phone", "url", "urlCompare", "address", "distance", "locale", "lowGrade", "highGrade", "schoolLevel", "isCharterSchool", "isMagnetSchool", "isVirtualSchool", "isTitleISchool", "isTitleISchoolwideSchool", "district", "county", "rankHistory", "rankMovement", "schoolYearlyDetails", "isPrivate", "privateDays", "privateHours", "privateHasLibrary", "privateCoed", "privateOrientation", "ncesPrivateSchoolID"]
+    __properties: ClassVar[List[str]] = ["vaccination", "lowIncome", "schoolid", "schoolName", "phone", "url", "urlCompare", "address", "distance", "locale", "lowGrade", "highGrade", "schoolLevel", "isCharterSchool", "isMagnetSchool", "isVirtualSchool", "isTitleISchool", "isTitleISchoolwideSchool", "district", "county", "rankHistory", "rankMovement", "schoolYearlyDetails", "isPrivate", "privateDays", "privateHours", "privateHasLibrary", "privateCoed", "privateOrientation", "ncesPrivateSchoolID"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -104,6 +106,9 @@ class APISchoolSummary31(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of vaccination
+        if self.vaccination:
+            _dict['vaccination'] = self.vaccination.to_dict()
         # override the default output from pydantic by calling `to_dict()` of low_income
         if self.low_income:
             _dict['lowIncome'] = self.low_income.to_dict()
@@ -140,6 +145,7 @@ class APISchoolSummary31(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "vaccination": APIVaxHeadline.from_dict(obj["vaccination"]) if obj.get("vaccination") is not None else None,
             "lowIncome": APILowIncome.from_dict(obj["lowIncome"]) if obj.get("lowIncome") is not None else None,
             "schoolid": obj.get("schoolid"),
             "schoolName": obj.get("schoolName"),

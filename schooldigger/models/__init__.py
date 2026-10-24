@@ -53,6 +53,15 @@ from schooldigger.models.api_test_score30_percent_tier3 import APITestScore30Per
 from schooldigger.models.api_test_score30_percent_tier4 import APITestScore30PercentTier4
 from schooldigger.models.api_test_score30_percent_tier5 import APITestScore30PercentTier5
 from schooldigger.models.api_test_score_wrapper30 import APITestScoreWrapper30
+from schooldigger.models.api_vaccination import APIVaccination
+from schooldigger.models.api_vax_code import APIVaxCode
+from schooldigger.models.api_vax_figure import APIVaxFigure
+from schooldigger.models.api_vax_grade import APIVaxGrade
+from schooldigger.models.api_vax_headline import APIVaxHeadline
+from schooldigger.models.api_vax_level_value import APIVaxLevelValue
+from schooldigger.models.api_vax_note import APIVaxNote
+from schooldigger.models.api_vax_source import APIVaxSource
+from schooldigger.models.api_vax_value import APIVaxValue
 from schooldigger.models.api_yearly_demographics import APIYearlyDemographics
 from schooldigger.models.api_yearly_demographics31 import APIYearlyDemographics31
 

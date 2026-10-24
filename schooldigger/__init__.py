@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.0.0"
+__version__ = "3.1.0"
 
 # Define package exports
 __all__ = [
@@ -71,6 +71,15 @@ __all__ = [
     "APITestScore30PercentTier4",
     "APITestScore30PercentTier5",
     "APITestScoreWrapper30",
+    "APIVaccination",
+    "APIVaxCode",
+    "APIVaxFigure",
+    "APIVaxGrade",
+    "APIVaxHeadline",
+    "APIVaxLevelValue",
+    "APIVaxNote",
+    "APIVaxSource",
+    "APIVaxValue",
     "APIYearlyDemographics",
     "APIYearlyDemographics31",
 ]
@@ -132,6 +141,15 @@ from schooldigger.models.api_test_score30_percent_tier3 import APITestScore30Per
 from schooldigger.models.api_test_score30_percent_tier4 import APITestScore30PercentTier4 as APITestScore30PercentTier4
 from schooldigger.models.api_test_score30_percent_tier5 import APITestScore30PercentTier5 as APITestScore30PercentTier5
 from schooldigger.models.api_test_score_wrapper30 import APITestScoreWrapper30 as APITestScoreWrapper30
+from schooldigger.models.api_vaccination import APIVaccination as APIVaccination
+from schooldigger.models.api_vax_code import APIVaxCode as APIVaxCode
+from schooldigger.models.api_vax_figure import APIVaxFigure as APIVaxFigure
+from schooldigger.models.api_vax_grade import APIVaxGrade as APIVaxGrade
+from schooldigger.models.api_vax_headline import APIVaxHeadline as APIVaxHeadline
+from schooldigger.models.api_vax_level_value import APIVaxLevelValue as APIVaxLevelValue
+from schooldigger.models.api_vax_note import APIVaxNote as APIVaxNote
+from schooldigger.models.api_vax_source import APIVaxSource as APIVaxSource
+from schooldigger.models.api_vax_value import APIVaxValue as APIVaxValue
 from schooldigger.models.api_yearly_demographics import APIYearlyDemographics as APIYearlyDemographics
 from schooldigger.models.api_yearly_demographics31 import APIYearlyDemographics31 as APIYearlyDemographics31
 
