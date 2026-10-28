@@ -38,6 +38,7 @@ print(f"Enrollment: {school.school_yearly_details[0].number_of_students}")
 | `DistrictsApi` | `search_districts()`, `get_district()` |
 | `RankingsApi` | `get_school_rankings()`, `get_district_rankings()` |
 | `AutocompleteApi` | `autocomplete_schools()`, `autocomplete_districts()` |
+| `schooldigger.batch.BatchClient` | `submit_batch()`, `get_batch()`, `get_batch_results()`, `wait_for_batch()`, `cancel_batch()` (see [Batch requests](#batch-requests-sdk-32)) |
 
 ## Test scores in API 3.0
 
@@ -139,6 +140,38 @@ else:
 
 District endpoints are unchanged. See
 [Vaccination rates](https://developer.schooldigger.com/data-quality#vaccination).
+
+## Batch requests (SDK 3.2)
+
+The [async batch API](https://developer.schooldigger.com/batch-requests-schooldigger-api) runs up to
+2,000 API GET calls for you, paced at half your plan's per-minute limit, and returns the results in
+parts of 20. Each item counts as one API call; submitting, polling and downloading are free. Paid
+plans only. `schooldigger.batch` wraps it (import the submodule; it isn't in the package root):
+
+```python
+from schooldigger.batch import BatchClient, BatchError
+
+client = BatchClient("YOUR_APP_ID", "YOUR_APP_KEY")   # or BatchClient(configuration=config)
+batch = client.submit_batch(
+    [{"id": sid, "path": f"/v3.1/schools/{sid}"} for sid in ["530792001309", "530792003116"]]
+)                                                     # plain path strings work too
+for part in client.wait_for_batch(batch["batchId"]):  # polls with Retry-After, yields parts as ready
+    for r in part.results:                            # {"id", "path", "status", "body"}
+        print(r["id"], r["status"], (r["body"] or {}).get("schoolName"))
+```
+
+| Method | Route |
+|--------|-------|
+| `submit_batch(items, callback_url=None)` | `POST /batches` (returns `batchId`, `partCount`, ...) |
+| `get_batch(batch_id)` | `GET /batches/{batchId}` (status, `partsReady`, ...) |
+| `get_batch_results(batch_id, part)` | `GET /batches/{batchId}/results?part=N`, decoded NDJSON |
+| `cancel_batch(batch_id)` | `DELETE /batches/{batchId}` |
+| `wait_for_batch(batch_id, timeout=None)` | polls and yields `BatchPart(part, results)`; raises `BatchNotCompletedError` if the batch ends `failed`, `canceled` or `expired` |
+
+`body` is the plain JSON the same GET returns (a dict, not a model). Error responses raise
+`BatchError` with `status`, `message`, `description` and, for a rejected submit, `errors`.
+To check a callback's `X-SchoolDigger-Signature` header, pass the raw request body to
+`verify_signature(raw_body, header, app_key)`.
 
 ## Authentication
 

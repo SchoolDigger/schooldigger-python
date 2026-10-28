@@ -8,3 +8,7 @@ setup.cfg
 .gitlab-ci.yml
 .travis.yml
 git_push.sh
+
+# Hand-written batch helpers (import as schooldigger.batch) and their tests.
+schooldigger/batch.py
+test/test_batch.py
